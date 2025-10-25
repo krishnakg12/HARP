@@ -1,22 +1,22 @@
 RFP Document Information Extraction Using Google Gemini
-
--Project Objective
+Project Objective
 
 This project extracts structured information from unstructured Request for Proposal (RFP) documents in PDF and HTML formats.
-Using Natural Language Processing (NLP) and Google’s Gemini LLM, the program automates reading, interpreting, and structuring RFP content into a predefined JSON format.
+It leverages Natural Language Processing (NLP) and Google Gemini LLM to automate reading, interpreting, and structuring RFP content into a predefined JSON format.
 
+Key features:
 
-Parses RFPs (PDF & HTML)
+Parses RFPs in PDF & HTML formats
 
-Extracts key fields such as Bid Number, Title, Due Date, etc.
+Extracts key fields like Bid Number, Title, Due Date, etc.
 
-Uses Gemini to interpret and map the extracted text to a structured JSON format
+Uses Gemini to map extracted text into structured JSON
 
-Outputs clean, machine-readable data for downstream analysis or automation.
+Outputs clean, machine-readable data for downstream use
 
--Expected Structured Output
+Expected Structured Output
 
-Your final structured data will look similar to this JSON example:
+Example JSON:
 
 {
   "Bid Number": "RFP-2025-012",
@@ -41,33 +41,29 @@ Your final structured data will look similar to this JSON example:
   "Product Specification": "Rackmount server, 64-core CPU, 256GB RAM, dual PSU"
 }
 
+Installation
 
-
--Install Dependencies
-
-All required libraries are listed in requirements.txt.
-Run:
+Install dependencies using pip:
 
 pip install -r requirements.txt
 
-Example requirements.txt
+
+Example requirements.txt:
+
 google-generativeai
 PyMuPDF
 beautifulsoup4
 pandas
 
--Setting Up the Gemini API Key Securely
+Setting Up the Gemini API Key (Securely)
+
 In Google Colab:
-
-Get your API key from Google AI Studio
-
-Store it securely:
 
 from google.colab import userdata
 userdata.set('GOOGLE_API_KEY', 'your_api_key_here')
 
 
--Configure Gemini:
+Configure Gemini:
 
 import google.generativeai as genai
 from google.colab import userdata
@@ -80,13 +76,10 @@ genai.configure(api_key=api_key)
 print("✅ Gemini API configured successfully.")
 
 
--This method keeps your API key secure and hidden from notebook viewers.
+This keeps your API key secure and hidden from notebook viewers.
 
--Step-by-Step Usage Guide
-Step 1. Upload a File
-
-Run the upload function:
-
+Step-by-Step Usage
+Step 1: Upload a File
 file_data, file_name = upload_file()
 
 
@@ -94,11 +87,11 @@ Supported formats: .pdf, .html
 
 Returns: file bytes and filename
 
-Step 2. Extract Text
+Step 2: Extract Text
 text = extract_text_from_file(file_data, file_name)
 print(text[:500])  # Preview first 500 characters
 
-Step 3. Use Gemini to Structure Information
+Step 3: Use Gemini to Structure Information
 import google.generativeai as genai
 
 model = genai.GenerativeModel("gemini-1.5-pro")
@@ -118,31 +111,10 @@ Text:
 response = model.generate_content(prompt)
 print(response.text)
 
-Step 4. Save Output as JSON
+Step 4: Save Output as JSON
 import json
 
 structured_data = response.text
 with open("structured_output.json", "w") as f:
     json.dump(structured_data, f, indent=4)
 print("✅ Structured data saved to structured_output.json")
-
--Input and Output Summary
-Type	Format	Example
-Input	PDF or HTML	bid_details.pdf, rfp_page.html
-Intermediate Output	Extracted text (string)	"Bid Title: Network Equipment Upgrade..."
-Final Output	JSON (structured fields)	structured_output.json
-
--Dependencies
-Library	Purpose
-google-generativeai	LLM-based text understanding (Gemini)
-PyMuPDF (fitz)	PDF text extraction
-beautifulsoup4	HTML text parsing
-pandas	Data cleaning and optional analysis
-google.colab	File uploads and secure key storage
-
--Evaluation Criteria (per assignment)
-Metric	Description
-Accuracy	Extracted data correctly matches RFP fields
-Robustness	Handles both PDF and HTML documents
-Code Quality	Clean, modular, commented, and validated
-Use of LLM/NLP	Effective use of Gemini or NLP models for structuring
