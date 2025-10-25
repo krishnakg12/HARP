@@ -1,4 +1,5 @@
 RFP Document Information Extraction Using Google Gemini
+
 -Project Objective
 
 This project extracts structured information from unstructured Request for Proposal (RFP) documents in PDF and HTML formats.
